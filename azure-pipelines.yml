@@ -16,8 +16,7 @@ steps:
   displayName: 'dotnet test'
   inputs:
     command: 'test'
-    arguments: 'eShopOnWeb.sln'
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    arguments: '--configuration $(buildConfiguration) eShopOnWeb.sln /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
     publishTestResults: true
     projects: 'tests' # update with your test project directory
   
@@ -31,9 +30,8 @@ steps:
   displayName: 'Publish local'
   inputs:
     command: publish
-    arguments: 'eShopOnWeb.sln'
     publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) eShopOnWeb.sln'
     zipAfterPublish: True
 
 # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
