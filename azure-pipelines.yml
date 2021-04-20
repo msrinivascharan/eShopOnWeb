@@ -16,7 +16,8 @@ steps:
   displayName: 'dotnet test'
   inputs:
     command: 'test'
-    arguments: ' eShopOnWeb.sln  --configuration /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    arguments: 'eShopOnWeb.sln'
+    #arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
     publishTestResults: true
     #projects: 'tests' # update with your test project directory
   
