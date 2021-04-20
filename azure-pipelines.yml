@@ -12,15 +12,22 @@ steps:
     arguments: 'eShopOnWeb.sln'
     configuration: $(buildConfiguration)
     
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet test'
+
+- task: PowerShell@2
+  displayName: '.net test&coverage'
   inputs:
-    command: 'test'
-    arguments: 'eShopOnWeb.sln /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    #arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    publishTestResults: true
-    #projects: 'tests' # update with your test project directory
-  
+    targetType: 'inline'
+    script: |
+      dotnet new sln -n XUnit.Coverage
+      
+      dotnet sln XUnit.Coverage.sln add **/*.csproj --in-root
+      
+      cd XUnit.Coverlet.Collector
+      
+      dotnet test --collect:"XPlat Code Coverage"
+      
+      dotnet tool install -g dotnet-reportgenerator-globaltool
+
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage report'
   inputs:
